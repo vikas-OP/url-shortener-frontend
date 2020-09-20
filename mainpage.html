@@ -25,8 +25,23 @@
       <div id="shorturl"></div>
     </div>
     <div id="info"></div>
+    <div class="allUrls" style="display: none">
+      <table class="table table-dark">
+        <thead>
+          <tr>
+            <th scope="col">short URL</th>
+            <th scope="col">long URL</th>
+          </tr>
+        </thead>
+        <tbody id="allUrls"></tbody>
+      </table>
+    </div>
+    <button id="showurls">show all urls</button>
     <button id="logout">Log out</button>
     <script>
+      document.getElementById("showallurls").addEventListener("click", () => {
+        populateurls();
+      });
       document.getElementById("createurl").addEventListener("submit", (e) => {
         e.preventDefault();
         createShortUrl();
@@ -60,6 +75,34 @@
         location.href = "./index.html";
       });
       populatedata();
+
+      async function populateurls() {
+        let response = await fetch(
+          "https://vikas-url-shortener.herokuapp.com/allurls",
+          {
+            method: "GET",
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
+        response = await response.json();
+        response = response.data;
+        let trs = [];
+        response.forEach((url) => {
+          let tr = document.createElement("tr");
+          let td1 = document.createElement("td");
+          let td2 = document.createElement("td");
+          td1.innerText = url.shortUrl;
+          td2.innerText = url.longUrl;
+          tr.append(td1, td2);
+          trs.push(tr);
+        });
+        document.getElementById("allUrls").append(...trs);
+        document
+          .querySelector(".allUrls")
+          .setAttribute("style", "display: block");
+      }
       async function populatedata() {
         let response = await fetch(
           "https://vikas-url-shortener.herokuapp.com/dashboardinfo",
