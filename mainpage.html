@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div id="dashboard">
+      <div id="month">No. of urls created per month:</div>
+      <div id="day">No. of urls created per day:</div>
+    </div>
+    <div class="urls">
+      <form id="createurl">
+        <input type="text" placeholder="enter long url" id="longUrl" required />
+        <br />
+        <button type="submit">Create short url</button>
+      </form>
+      <div id="shorturl"></div>
+    </div>
+    <div id="info"></div>
+    <button id="logout">Log out</button>
+    <script>
+      document.getElementById("createurl").addEventListener("submit", (e) => {
+        e.preventDefault();
+        createShortUrl();
+      });
+      async function createShortUrl() {
+        let data = {
+          url: document.getElementById("longUrl").value,
+        };
+        let response = await fetch("http://localhost:3000/createurl", {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("token"),
+          },
+        });
+        response = await response.json();
+        if (response.stat == "success") {
+          document.getElementById(
+            "info"
+          ).innerHTML = `<a href = "./short.html?${response.shortUrl}">http://127.0.0.1:5500/short.html?${response.shortUrl}</a>`;
+        } else {
+          document.getElementById("info").innerText = response.message;
+        }
+      }
+      document.getElementById("logout").addEventListener("click", () => {
+        localStorage.setItem("token", "");
+        location.href = "./index.html";
+      });
+      populatedata();
+      async function populatedata() {
+        let response = await fetch("http://localhost:3000/dashboardinfo", {
+          method: "GET",
+          headers: { Authorization: localStorage.getItem("token") },
+        });
+        response = await response.json();
+        if (response.stat == "success") {
+          document.getElementById("month").innerText += ` ${response.perMonth}`;
+          document.getElementById("day").innerText += ` ${response.perDay}`;
+        } else {
+          document.getElementById("info").innerText = response.message;
+        }
+      }
+    </script>
+    <!-- JS, Popper.js, and jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
