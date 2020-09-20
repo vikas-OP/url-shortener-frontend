@@ -54,7 +54,7 @@
         </div>
       </div>
       <div
-        class="container d-flex flex-column justify-content-center align-items-center"
+        class="container d-flex flex-column justify-content-center align-items-center mt-4"
         style="min-height: 50vh"
       >
         <div class="urls">
@@ -75,20 +75,18 @@
           </form>
         </div>
         <div id="info"></div>
-        <div class="row">
-          <div class="allUrls col-12" style="display: none">
-            <table class="table table-dark">
-              <thead>
-                <tr>
-                  <th scope="col">short URL</th>
-                  <th scope="col">long URL</th>
-                </tr>
-              </thead>
-              <tbody id="allUrls"></tbody>
-            </table>
-          </div>
-          <button id="showurls" class="btn btn-info my-3">show all urls</button>
+        <div class="allUrls container" style="display: none">
+          <table class="table table-responsive table-dark">
+            <thead>
+              <tr>
+                <th scope="col">short URL</th>
+                <th scope="col">long URL</th>
+              </tr>
+            </thead>
+            <tbody id="allUrls"></tbody>
+          </table>
         </div>
+        <button id="showurls" class="btn btn-info my-3">show all urls</button>
       </div>
     </div>
 
