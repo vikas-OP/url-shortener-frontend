@@ -47,7 +47,7 @@
         if (response.stat == "success") {
           document.getElementById(
             "info"
-          ).innerHTML = `<a href = "./short.html?${response.shortUrl}">http://127.0.0.1:5500/short.html?${response.shortUrl}</a>`;
+          ).innerHTML = `<a href = "./short.html?${response.shortUrl}">https://vikas-tinyurl.netlify.app/?${response.shortUrl}</a>`;
         } else {
           document.getElementById("info").innerText = response.message;
         }
