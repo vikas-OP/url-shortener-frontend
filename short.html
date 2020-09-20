@@ -16,12 +16,15 @@
       redirection();
       async function redirection() {
         let query = decodeURIComponent(location.search).slice(1);
-        let loc = await fetch(`http://localhost:3000/longurl/${query}`, {
-          method: "GET",
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        });
+        let loc = await fetch(
+          `https://vikas-url-shortener.herokuapp.com/longurl/${query}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
         loc = await loc.json();
         location.href = loc.longUrl;
       }

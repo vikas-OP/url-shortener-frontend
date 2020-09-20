@@ -35,14 +35,17 @@
         let data = {
           url: document.getElementById("longUrl").value,
         };
-        let response = await fetch("http://localhost:3000/createurl", {
-          method: "POST",
-          body: JSON.stringify(data),
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: localStorage.getItem("token"),
-          },
-        });
+        let response = await fetch(
+          "https://vikas-url-shortener.herokuapp.com/createurl",
+          {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
         response = await response.json();
         if (response.stat == "success") {
           document.getElementById(
@@ -58,10 +61,13 @@
       });
       populatedata();
       async function populatedata() {
-        let response = await fetch("http://localhost:3000/dashboardinfo", {
-          method: "GET",
-          headers: { Authorization: localStorage.getItem("token") },
-        });
+        let response = await fetch(
+          "https://vikas-url-shortener.herokuapp.com/dashboardinfo",
+          {
+            method: "GET",
+            headers: { Authorization: localStorage.getItem("token") },
+          }
+        );
         response = await response.json();
         if (response.stat == "success") {
           document.getElementById("month").innerText += ` ${response.perMonth}`;

@@ -21,13 +21,16 @@
         let data = {
           activationLink: query,
         };
-        let response = await fetch("http://localhost:3000/activate", {
-          method: "PUT",
-          body: JSON.stringify(data),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        let response = await fetch(
+          "https://vikas-url-shortener.herokuapp.com/activate",
+          {
+            method: "PUT",
+            body: JSON.stringify(data),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         response = await response.json();
         if (response.stat == "success") {
           document.getElementById("info").innerHTML = `${response.message}
